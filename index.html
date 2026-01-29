@@ -233,6 +233,11 @@
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Rethinking Slot Initialization: From Content-Blind to Grounded</h2>
+        <div class="content has-text-justified">
+          <p>
+            Slot Attention partitions visual tokens through iterative competitive grouping. In video object-centric learning, slots for frame t are refined through multiple attention iterations conditioned on the state from frame t-1. Current methods typically apply three iterations for the initial frame and two iterations for subsequent frames to ensure stable decompositions. This iterative overhead stems from architectural choices rather than fundamental requirements of the binding mechanism. When slot initialization exploits the structural priors already present in vision backbone features, the grouping process converges substantially faster.
+          </p>
+        </div>
       </div>
     </div>
 
@@ -270,6 +275,11 @@
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Rethinking Temporal Consistency: Prediction or Correspondence?</h2>
+        <div class="content has-text-justified">
+          <p>
+            Existing methods assume that maintaining object identity across frames requires learned predictors that model dynamics. In this section, we test whether temporal consistency can instead be solved through correspondence: matching slot representations between consecutive frames without predicting future states.
+          </p>
+        </div>
       </div>
     </div>
 
@@ -279,7 +289,7 @@
         <div class="table-container" style="overflow-x:auto; margin-top: 1em;">
             <table class="table is-bordered is-striped is-hoverable is-fullwidth" style="max-width:600px; margin:auto;">
               <caption style="caption-side:top; text-align:center; font-weight:bold;">
-                SlotContrast with and without learned temporal prediction on YouTube-VIS. The identity baseline <span style='font-family:monospace;'>Q<sub>t</sub> = S<sub>t-1</sub></span> matches the performance of the full model. Mean and standard deviation over 3 seeds.
+                Table 1. SlotContrast with and without learned temporal prediction on YouTube-VIS. The identity baseline <span style='font-family:monospace;'>Q<sub>t</sub> = S<sub>t-1</sub></span> matches the performance of the full model. Mean and standard deviation over 3 seeds.
               </caption>
               <thead>
                 <tr>
@@ -309,7 +319,7 @@
       <div class="column is-half">
         <img src="./static/images/icml2026_rethinking_figure4.png" alt="Grounded" style="width: 100%; height: auto;">
         <p>
-          Figure 5. Hungarian Identity Ratio on YouTube-VIS equals $1.0$ when slots are propagated as identity between frames, indicating that discrete matching suffices for temporal consistency.
+          Figure 5. Hungarian Identity Ratio on YouTube-VIS equals 1.0 when slots are propagated as identity between frames, indicating that discrete matching suffices for temporal consistency.
         </p>
       </div>
     </div>
