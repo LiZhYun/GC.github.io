@@ -1,13 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="description" content="Temporal consistency in video object-centric learning is a discrete matching problem, not a dynamics prediction problem.">
+  <meta name="description"
+        content="Temporal consistency in video object-centric learning is a discrete matching problem, not a dynamics prediction problem.">
   <meta name="keywords" content="Video Object-Centric Learning, Temporal Consistency, Self-Supervised Learning, Bipartite Matching">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rethinking Temporal Consistency in Video Object-Centric Learning</title>
+  <title>Rethinking Temporal Consistency in Video Object-Centric Learning: From Prediction to Correspondence</title>
 
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Bulma & Icons -->
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
   <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
@@ -17,179 +32,778 @@
   <link rel="icon" href="./static/images/favicon.svg">
 
   <style>
-    /* Custom spacing and typography refinements */
-    .publication-title { font-family: 'Google Sans', sans-serif; font-weight: 700 !important; }
-    .section-title { margin-bottom: 2rem !important; }
-    .figure-caption { font-size: 0.95rem; margin-top: 0.75rem; color: #4a4a4a; text-align: justify; }
-    .method-highlight { background-color: #f5f5f5; border-radius: 10px; padding: 2rem; margin: 2rem 0; }
-    .results-table-container { background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 1rem; }
-    hr { background-color: #f0f0f0; height: 1px; margin: 3rem 0; }
+    :root {
+      --color-bg: #fafafa;
+      --color-bg-alt: #f5f5f5;
+      --color-text: #1a1a1a;
+      --color-text-muted: #555;
+      --color-accent: #2563eb;
+      --color-accent-hover: #1d4ed8;
+      --color-border: #e5e5e5;
+      --color-border-dark: #d4d4d4;
+      --font-serif: 'Source Serif 4', Georgia, serif;
+      --font-sans: 'IBM Plex Sans', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --max-width: 900px;
+      --section-spacing: 5rem;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.7;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Navigation */
+    .navbar {
+      background: rgba(250, 250, 250, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--color-border);
+      padding: 0.75rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar-item {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+      transition: color 0.2s ease;
+    }
+
+    .navbar-item:hover {
+      color: var(--color-accent);
+      background: transparent;
+    }
+
+    .navbar-link::after {
+      border-color: var(--color-text-muted);
+    }
+
+    .navbar-dropdown {
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    /* Hero Section */
+    .hero-header {
+      padding: 4rem 1.5rem 3rem;
+      background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-alt) 100%);
+    }
+
+    .publication-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--color-text);
+      max-width: 850px;
+      margin: 0 auto 2rem;
+      letter-spacing: -0.02em;
+    }
+
+    .publication-authors {
+      margin-bottom: 0.5rem;
+    }
+
+    .publication-authors a {
+      color: var(--color-accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .publication-authors a:hover {
+      text-decoration: underline;
+    }
+
+    .author-block {
+      font-size: 1.1rem;
+      color: var(--color-text);
+    }
+
+    .author-block sup {
+      color: var(--color-accent);
+      font-weight: 600;
+    }
+
+    .affiliations {
+      font-size: 0.95rem;
+      color: var(--color-text-muted);
+      margin-bottom: 2rem;
+    }
+
+    /* Publication Links */
+    .publication-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .publication-links .button {
+      font-family: var(--font-sans);
+      font-weight: 500;
+      font-size: 0.9rem;
+      padding: 0.6em 1.2em;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      border: 1px solid var(--color-border-dark);
+      background: white;
+      color: var(--color-text);
+    }
+
+    .publication-links .button:hover {
+      background: var(--color-text);
+      color: white;
+      border-color: var(--color-text);
+      transform: translateY(-1px);
+    }
+
+    .publication-links .button .icon {
+      margin-right: 0.4em;
+    }
+
+    /* Teaser Section */
+    .teaser-section {
+      padding: 0 1.5rem 3rem;
+      background: var(--color-bg-alt);
+    }
+
+    .teaser-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .teaser-image {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      margin-bottom: 1.5rem;
+    }
+
+    .teaser-caption {
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: var(--color-text-muted);
+      text-align: left;
+    }
+
+    .teaser-caption strong {
+      color: var(--color-text);
+    }
+
+    /* Main Content Sections */
+    .content-section {
+      padding: var(--section-spacing) 1.5rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .content-section:last-of-type {
+      border-bottom: none;
+    }
+
+    .section-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.01em;
+      text-align: center;
+    }
+
+    .section-content {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--color-text);
+      max-width: 720px;
+      margin: 0 auto 2.5rem;
+    }
+
+    /* Abstract */
+    .abstract-text {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    /* Figures */
+    .figure-container {
+      margin: 2.5rem 0;
+    }
+
+    .figure-image {
+      width: 100%;
+      border-radius: 6px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .figure-image:hover {
+      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+    }
+
+    .figure-caption {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--color-text-muted);
+      text-align: left;
+    }
+
+    .figure-caption strong {
+      color: var(--color-text);
+      font-weight: 600;
+    }
+
+    /* Two-column figures */
+    .figure-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2.5rem 0;
+    }
+
+    @media (max-width: 768px) {
+      .figure-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .figure-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .figure-item .figure-image {
+      flex-shrink: 0;
+    }
+
+    /* Tables */
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 2rem 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      background: white;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      font-family: var(--font-sans);
+    }
+
+    .data-table caption {
+      padding: 1rem 1.25rem;
+      text-align: left;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: var(--color-text-muted);
+      background: var(--color-bg-alt);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 0.75rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .data-table th {
+      background: var(--color-bg-alt);
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--color-text-muted);
+    }
+
+    .data-table th:first-child,
+    .data-table td:first-child {
+      text-align: left;
+      font-weight: 500;
+    }
+
+    .data-table tbody tr:hover {
+      background: var(--color-bg-alt);
+    }
+
+    .data-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table sub {
+      font-size: 0.7em;
+      color: var(--color-text-muted);
+      margin-left: 0.1em;
+    }
+
+    .data-table .highlight {
+      font-weight: 600;
+      color: var(--color-accent);
+    }
+
+    /* Inline code styling for table */
+    .formula {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      background: var(--color-bg-alt);
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+    }
+
+    /* Results table specific */
+    .results-table th[colspan] {
+      border-bottom: 2px solid var(--color-border-dark);
+    }
+
+    /* Mixed content row (table + figure) */
+    .mixed-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+      margin: 2.5rem 0;
+    }
+
+    @media (max-width: 900px) {
+      .mixed-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .mixed-grid .table-wrapper {
+      margin: 0;
+    }
+
+    .mixed-grid .figure-container {
+      margin: 0;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: var(--color-bg-alt);
+      padding: 3rem 1.5rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-links a {
+      color: var(--color-text-muted);
+      font-size: 1.25rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--color-accent);
+    }
+
+    .footer-text {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .footer-text a {
+      color: var(--color-accent);
+      text-decoration: none;
+    }
+
+    .footer-text a:hover {
+      text-decoration: underline;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-in {
+      animation: fadeInUp 0.6s ease-out forwards;
+      opacity: 0;
+    }
+
+    .animate-delay-1 { animation-delay: 0.1s; }
+    .animate-delay-2 { animation-delay: 0.2s; }
+    .animate-delay-3 { animation-delay: 0.3s; }
+    .animate-delay-4 { animation-delay: 0.4s; }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      :root {
+        --section-spacing: 3rem;
+      }
+
+      .publication-title {
+        font-size: 1.5rem;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+      }
+
+      .section-content,
+      .abstract-text {
+        font-size: 1rem;
+        text-align: left;
+      }
+
+      .data-table {
+        font-size: 0.8rem;
+      }
+
+      .data-table th,
+      .data-table td {
+        padding: 0.5rem 0.6rem;
+      }
+    }
+
+    /* Override Bulma defaults */
+    .section {
+      padding: 0;
+    }
+
+    .hero-body {
+      padding: 0;
+    }
   </style>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
 </head>
 <body>
 
-<nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+<!-- Navigation -->
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
   <div class="navbar-menu">
     <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="#"><span class="icon"><i class="fas fa-home"></i></span></a>
+      <a class="navbar-item" href="#">
+        <span class="icon">
+          <i class="fas fa-home"></i>
+        </span>
+      </a>
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">More Research</a>
         <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://magenta-sherbet-85b101.netlify.app/">Grounded Correspondence</a>
+          <a class="navbar-item" href="https://magenta-sherbet-85b101.netlify.app/">
+            Grounded Correspondence
+          </a>
         </div>
       </div>
     </div>
   </div>
 </nav>
 
-<section class="hero" style="margin-top: 3rem;">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered">
-        <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Rethinking Temporal Consistency in Video Object-Centric Learning: From Prediction to Correspondence</h1>
-          <div class="is-size-5 publication-authors">
-            <span class="author-block"><a href="#">Anonymous Author(s)</a><sup>1</sup></span>
-          </div>
-          <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>Affiliation</span>
-          </div>
+<!-- Hero Header -->
+<header class="hero-header">
+  <div class="container" style="max-width: 1000px; margin: 0 auto;">
+    <div class="has-text-centered">
+      <h1 class="publication-title animate-in">Rethinking Temporal Consistency in Video Object-Centric Learning: From Prediction to Correspondence</h1>
+      
+      <div class="publication-authors animate-in animate-delay-1">
+        <span class="author-block">
+          <a href="#">Anonymous Author(s)</a><sup>1</sup>
+        </span>
+      </div>
 
-          <div class="column has-text-centered">
-            <div class="publication-links">
-              <span class="link-block"><a href="#" class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span></a></span>
-              <span class="link-block"><a href="#" class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span></a></span>
-              <span class="link-block"><a href="https://anonymous.4open.science/r/ICML2026-RethinkingOCL-D077/README.md" class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="fab fa-github"></i></span><span>Code</span></a></span>
-            </div>
-          </div>
-        </div>
+      <div class="affiliations animate-in animate-delay-1">
+        <span><sup>1</sup>Affiliation</span>
+      </div>
+
+      <div class="publication-links animate-in animate-delay-2">
+        <a href="#" class="button">
+          <span class="icon"><i class="fas fa-file-pdf"></i></span>
+          <span>Paper</span>
+        </a>
+        <a href="#" class="button">
+          <span class="icon"><i class="ai ai-arxiv"></i></span>
+          <span>arXiv</span>
+        </a>
+        <a href="#" class="button">
+          <span class="icon"><i class="fab fa-youtube"></i></span>
+          <span>Video</span>
+        </a>
+        <a href="https://anonymous.4open.science/r/ICML2026-RethinkingOCL-D077/README.md" class="button">
+          <span class="icon"><i class="fab fa-github"></i></span>
+          <span>Code</span>
+        </a>
+        <a href="#" class="button">
+          <span class="icon"><i class="far fa-images"></i></span>
+          <span>Data</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Teaser -->
+<section class="teaser-section">
+  <div class="teaser-container animate-in animate-delay-3">
+    <img src="./static/images/icml2026_rethinkingocl_paradigm.png" alt="Teaser Image" class="teaser-image">
+    <p class="teaser-caption">
+      <strong>Figure 1. From prediction to correspondence: rethinking temporal consistency in video object-centric learning.</strong> <strong>Top:</strong> The predictive paradigm uses content-blind initialization without spatial priors. Temporal consistency relies on learned dynamics modules that forecast future slot states through high-capacity Transformers or recurrent networks. <strong>Bottom:</strong> Grounded Correspondence eliminates learned temporal parameters entirely. Slots initialize from saliency peaks in frozen backbone features. Frame-to-frame identity is maintained through parameter-free Hungarian matching on slot representations. This paradigm shift achieves competitive performance with zero learnable parameters for temporal modeling.
+    </p>
+  </div>
+</section>
+
+<!-- Abstract -->
+<section class="content-section" id="abstract">
+  <div class="section-inner">
+    <h2 class="section-title">Abstract</h2>
+    <div class="section-content abstract-text">
+      <p>
+        The de facto approach in video object-centric learning maintains temporal consistency through learned dynamics modules that predict future object representations, called slots. We demonstrate that these predictors function as expensive approximations of discrete correspondence problems. Modern self-supervised vision backbones already encode instance-discriminative features that distinguish objects reliably. Exploiting these features eliminates the need for learned temporal prediction. We introduce Grounded Correspondence, a framework that replaces learned transition functions with deterministic bipartite matching. Slots initialize from salient regions in frozen backbone features. Frame-to-frame identity is maintained through Hungarian matching on slot representations. The approach requires zero learnable parameters for temporal modeling yet achieves competitive performance on MOVi-D, MOVi-E, and YouTube-VIS.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Slot Initialization Section -->
+<section class="content-section" id="slot-initialization">
+  <div class="section-inner">
+    <h2 class="section-title">Rethinking Slot Initialization: From Content-Blind to Grounded</h2>
+    <div class="section-content">
+      <p>
+        Slot Attention partitions visual tokens through iterative competitive grouping. In video object-centric learning, slots for frame t are refined through multiple attention iterations conditioned on the state from frame t-1. Current methods typically apply three iterations for the initial frame and two iterations for subsequent frames to ensure stable decompositions. This iterative overhead stems from architectural choices rather than fundamental requirements of the binding mechanism. When slot initialization exploits the structural priors already present in vision backbone features, the grouping process converges substantially faster.
+      </p>
+    </div>
+
+    <!-- Figure 2: Full width -->
+    <div class="figure-container">
+      <img src="./static/images/icml2026_rethinkingocl_figure_1.png" alt="Slot Initialization" class="figure-image">
+      <p class="figure-caption">
+        <strong>Figure 2. Slot Attention convergence with different initialization strategies.</strong> Four examples from YouTube-VIS. For each example, left shows content-blind initialization across 3 iterations, right shows grounded initialization with 1 iteration. Content-blind initialization requires multiple iterations to stabilize object boundaries, while grounded initialization achieves stable segmentation in a single iteration.
+      </p>
+    </div>
+
+    <!-- Figures 3 & 4: Side by side -->
+    <div class="figure-grid">
+      <div class="figure-item">
+        <img src="./static/images/icml2026_rethinking_figure2.png" alt="DINOv2 Features" class="figure-image">
+        <p class="figure-caption">
+          <strong>Figure 3. Emergent object-binding signals in DINOv2 features.</strong> Left: Principal component analysis (PCA) visualization of patch embeddings shows coherent spatial clustering by object instance. Right: Saliency map derived from feature similarities (brighter regions indicate higher saliency). Peaks correspond to object centers.
+        </p>
+      </div>
+      <div class="figure-item">
+        <img src="./static/images/icml2026_rethinkingocl_figure3.png" alt="Index Permutation" class="figure-image">
+        <p class="figure-caption">
+          <strong>Figure 4. Index permutation in independent discovery.</strong> Three YouTube-VIS video sequences. Each row shows consecutive frames from one sequence. Objects are segmented correctly in each frame, but slot assignments (indicated by colors) change randomly across time, demonstrating inconsistent identity tracking.
+        </p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <figure>
-        <img src="./static/images/icml2026_rethinkingocl_paradigm.png" alt="Teaser Image">
-        <figcaption class="figure-caption">
-          <strong>Figure 1. From prediction to correspondence: rethinking temporal consistency in video object-centric learning.</strong> <strong>Top:</strong> The predictive paradigm uses content-blind initialization without spatial priors. Temporal consistency relies on learned dynamics modules. <strong>Bottom:</strong> Grounded Correspondence eliminates learned temporal parameters entirely.
-        </figcaption>
-      </figure>
+<!-- Temporal Consistency Section -->
+<section class="content-section" id="temporal-consistency">
+  <div class="section-inner">
+    <h2 class="section-title">Rethinking Temporal Consistency: Prediction or Correspondence?</h2>
+    <div class="section-content">
+      <p>
+        Existing methods assume that maintaining object identity across frames requires learned predictors that model dynamics. In this section, we test whether temporal consistency can instead be solved through correspondence: matching slot representations between consecutive frames without predicting future states.
+      </p>
     </div>
-  </div>
-</section>
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>The de facto approach in video object-centric learning maintains temporal consistency through learned dynamics modules... [Abstract Content]</p>
-        </div>
+    <!-- Table 1 + Figure 5: Side by side -->
+    <div class="mixed-grid">
+      <div class="table-wrapper">
+        <table class="data-table">
+          <caption>
+            <strong>Table 1.</strong> SlotContrast with and without learned temporal prediction on YouTube-VIS. The identity baseline <span class="formula">Q<sub>t</sub> = S<sub>t-1</sub></span> matches the performance of the full model. Mean and standard deviation over 3 seeds.
+          </caption>
+          <thead>
+            <tr>
+              <th>Temporal Module</th>
+              <th>ARI ↑</th>
+              <th>FG-ARI ↑</th>
+              <th>mBO ↑</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Learned predictor</td>
+              <td>32.1<sub>0.8</sub></td>
+              <td>36.3<sub>0.2</sub></td>
+              <td>29.9<sub>0.3</sub></td>
+            </tr>
+            <tr>
+              <td>Identity (<span class="formula">Q<sub>t</sub> = S<sub>t-1</sub></span>)</td>
+              <td class="highlight">33.0<sub>1.1</sub></td>
+              <td class="highlight">36.6<sub>0.7</sub></td>
+              <td class="highlight">30.5<sub>0.6</sub></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="figure-container">
+        <img src="./static/images/icml2026_rethinking_figure4.png" alt="Hungarian Identity Ratio" class="figure-image">
+        <p class="figure-caption">
+          <strong>Figure 5.</strong> Hungarian Identity Ratio on YouTube-VIS equals 1.0 when slots are propagated as identity between frames, indicating that discrete matching suffices for temporal consistency.
+        </p>
       </div>
     </div>
   </div>
 </section>
 
-<hr>
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered section-title">Rethinking Slot Initialization: From Content-Blind to Grounded</h2>
-    
-    <div class="content has-text-justified">
-      <p>Slot Attention partitions visual tokens through iterative competitive grouping... [Content]</p>
+<!-- Results Section -->
+<section class="content-section" id="results">
+  <div class="section-inner">
+    <h2 class="section-title">Results</h2>
+    <div class="section-content">
+      <p>
+        We evaluate our framework on MOVi-D and MOVi-E from the Kubric synthetic dataset, and on the real-world YouTube-VIS 2021 dataset. MOVi-D features high object density with both static and dynamic objects. MOVi-E introduces linear camera movement. YouTube-VIS 2021 consists of unconstrained video sequences.
+      </p>
     </div>
 
-    <figure class="mb-6">
-      <img src="./static/images/icml2026_rethinkingocl_figure_1.png" alt="Slot Initialization" style="width: 100%;">
-      <figcaption class="figure-caption"><strong>Figure 2. Slot Attention convergence.</strong> Left: content-blind across 3 iterations. Right: grounded with 1 iteration.</figcaption>
-    </figure>
-
-    <div class="columns is-centered">
-      <div class="column">
-        <figure>
-          <img src="./static/images/icml2026_rethinking_figure2.png" alt="Content-Blind">
-          <figcaption class="figure-caption"><strong>Figure 3. Emergent signals in DINOv2.</strong> Left: PCA visualization. Right: Saliency map.</figcaption>
-        </figure>
-      </div>
-      <div class="column">
-        <figure>
-          <img src="./static/images/icml2026_rethinkingocl_figure3.png" alt="Grounded">
-          <figcaption class="figure-caption"><strong>Figure 4. Index permutation.</strong> Random slot assignment across time in independent discovery.</figcaption>
-        </figure>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr>
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered section-title">Rethinking Temporal Consistency: Prediction or Correspondence?</h2>
-    
-    <div class="content has-text-justified mb-5">
-      <p>Existing methods assume maintaining object identity requires learned predictors... [Content]</p>
-    </div>
-
-    <div class="columns is-vcentered">
-      <div class="column is-6">
-        <div class="results-table-container">
-          <table class="table is-fullwidth is-narrow">
-            <thead>
-              <tr><th>Temporal Module</th><th>ARI &uarr;</th><th>mBO &uarr;</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Learned predictor</td><td>32.1</td><td>29.9</td></tr>
-              <tr><td><strong>Identity</strong></td><td><strong>33.0</strong></td><td><strong>30.5</strong></td></tr>
-            </tbody>
-          </table>
-          <p class="is-size-7 mt-2"><strong>Table 1.</strong> SlotContrast with/without prediction.</p>
-        </div>
-      </div>
-      <div class="column is-6">
-        <figure>
-          <img src="./static/images/icml2026_rethinking_figure4.png" alt="Hungarian Ratio">
-          <figcaption class="figure-caption"><strong>Figure 5. Hungarian Identity Ratio.</strong> Value of 1.0 indicates discrete matching suffices.</figcaption>
-        </figure>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr>
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered section-title">Results</h2>
-    <div class="results-table-container mb-6">
-        <table class="table is-bordered is-striped is-fullwidth performance-table">...</table>
+    <!-- Main Results Table -->
+    <div class="table-wrapper">
+      <table class="data-table results-table">
+        <caption>
+          <strong>Table 2. Performance on synthetic MOVi datasets and real-world YouTube-VIS.</strong> Grounded Correspondence uses zero learnable parameters for temporal modeling yet demonstrates strong improvements on synthetic benchmarks and competitive results on unconstrained sequences.
+        </caption>
+        <thead>
+          <tr>
+            <th rowspan="2" style="vertical-align: middle;">Method</th>
+            <th colspan="3">MOVi-D</th>
+            <th colspan="3">MOVi-E</th>
+            <th colspan="3">YouTube-VIS</th>
+          </tr>
+          <tr>
+            <th>ARI ↑</th>
+            <th>FG-ARI ↑</th>
+            <th>mBO ↑</th>
+            <th>ARI ↑</th>
+            <th>FG-ARI ↑</th>
+            <th>mBO ↑</th>
+            <th>ARI ↑</th>
+            <th>FG-ARI ↑</th>
+            <th>mBO ↑</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>SlotContrast</td>
+            <td>58.0<sub>0.8</sub></td>
+            <td>58.0<sub>0.8</sub></td>
+            <td class="highlight">30.0<sub>0.4</sub></td>
+            <td>68.9<sub>0.9</sub></td>
+            <td>68.9<sub>0.9</sub></td>
+            <td class="highlight">26.6<sub>0.6</sub></td>
+            <td class="highlight">32.1<sub>0.8</sub></td>
+            <td class="highlight">36.3<sub>0.2</sub></td>
+            <td class="highlight">29.9<sub>0.3</sub></td>
+          </tr>
+          <tr>
+            <td><strong>Grounded Correspondence</strong></td>
+            <td class="highlight">73.7<sub>1.7</sub></td>
+            <td class="highlight">73.7<sub>1.7</sub></td>
+            <td>28.4<sub>0.3</sub></td>
+            <td class="highlight">75.7<sub>1.4</sub></td>
+            <td class="highlight">75.7<sub>1.4</sub></td>
+            <td>23.4<sub>0.5</sub></td>
+            <td>30.1<sub>4.4</sub></td>
+            <td>33.1<sub>1.6</sub></td>
+            <td>29.3<sub>1.9</sub></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="columns is-centered is-multiline">
-      <div class="column is-full">
-        <figure class="box">
-          <img src="./static/images/icml2026_rethinkingocl_qualitative_movid.png" alt="MOVi-D">
-          <figcaption class="figure-caption"><strong>Figure 6. MOVi-D Comparison.</strong> Grounded Correspondence (Top) vs SlotContrast (Bottom).</figcaption>
-        </figure>
-      </div>
-      <div class="column is-full">
-        <figure class="box">
-          <img src="./static/images/icml2026_rethinkingocl_qualitative_movie.png" alt="MOVi-E">
-          <figcaption class="figure-caption"><strong>Figure 7. MOVi-E Comparison.</strong> Our method generates more coherent segments.</figcaption>
-        </figure>
-      </div>
+    <!-- Qualitative Results -->
+    <div class="figure-container" style="margin-top: 3rem;">
+      <img src="./static/images/icml2026_rethinkingocl_qualitative_movid.png" alt="MOVi-D Qualitative Results" class="figure-image">
+      <p class="figure-caption">
+        <strong>Figure 6. Qualitative comparison on MOVi-D.</strong> Each row shows consecutive frames from one sequence. Top: Grounded Correspondence. Bottom: SlotContrast. Different colors indicate different slot assignments. Grounded Correspondence produces more compact object masks, assigning single objects to single slots. In contrast, SlotContrast exhibits a tendency to split individual objects into multiple parts, as seen in several sequences where unified objects in our method correspond to fragmented, multi-colored regions in the baseline. This over-segmentation behavior aligns with the lower ARI scores achieved by SlotContrast on this benchmark.
+      </p>
+    </div>
+
+    <div class="figure-container">
+      <img src="./static/images/icml2026_rethinkingocl_qualitative_movie.png" alt="MOVi-E Qualitative Results" class="figure-image">
+      <p class="figure-caption">
+        <strong>Figure 7. Qualitative comparison on MOVi-E.</strong> Each row shows consecutive frames from one sequence. Top: Grounded Correspondence. Bottom: SlotContrast. Different colors indicate different slot assignments. Grounded Correspondence generates compact masks that unify objects and background regions into coherent segments. SlotContrast exhibits fragmentation across both foreground and background, splitting continuous surfaces into multiple disconnected parts. The compact representation achieved by our method contributes to the substantial ARI improvement over the baseline on this benchmark.
+      </p>
+    </div>
+
+    <div class="figure-container">
+      <img src="./static/images/icml2026_rethinkingocl_qualitative_ytvis.png" alt="YouTube-VIS Qualitative Results" class="figure-image">
+      <p class="figure-caption">
+        <strong>Figure 8. Qualitative comparison on YouTube-VIS.</strong> Each row shows consecutive frames from one sequence. Top: Grounded Correspondence. Bottom: SlotContrast. Both methods achieve competitive performance on unconstrained real-world sequences.
+      </p>
     </div>
   </div>
 </section>
 
-<footer class="footer">
-  <div class="container has-text-centered">
-    <p>This website is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="#" title="Paper PDF"><i class="fas fa-file-pdf"></i></a>
+      <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+    </div>
+    <div class="footer-text">
+      <p>
+        This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </p>
+      <p style="margin-top: 0.75rem;">
+        This means you are free to borrow the <a href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website, we just ask that you link back to this page in the footer. Please remember to remove the analytics code included in the header of the website which you do not want on your website.
+      </p>
+    </div>
   </div>
 </footer>
 
