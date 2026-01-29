@@ -329,43 +329,104 @@
 
 <section class="section">
   <div class="container is-max-desktop">
-
-    <div class="columns is-centered">
-
-      <!-- Visual Effects. -->
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-3">Visual Effects</h2>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Results</h2>
+        <div class="content has-text-justified">
           <p>
-            Using <i>nerfies</i> you can create fun visual effects. This Dolly zoom effect
-            would be impossible without nerfies since it would require going through a wall.
+            We evaluate our framework on MOVi-D and MOVi-E from the Kubric synthetic dataset, and on the real-world YouTube-VIS 2021 dataset. MOVi-D features high object density with both static and dynamic objects. MOVi-E introduces linear camera movement. YouTube-VIS 2021 consists of unconstrained video sequences.
           </p>
-          <img src="./static/images/icml2026_rethinking_figure2.png" alt="Visual Effects" style="width: 100%; height: auto;">
-        </div>
-      </div>
-      <!--/ Visual Effects. -->
-
-      <!-- Matting. -->
-      <div class="column">
-        <h2 class="title is-3">Matting</h2>
-        <div class="columns is-centered">
-          <div class="column content">
-            <p>
-              As a byproduct of our method, we can also solve the matting problem by ignoring
-              samples that fall outside of a bounding box during rendering.
-            </p>
-            <img src="./static/images/icml2026_rethinking_figure4.png" alt="Matting" style="width: 100%; height: auto;">
-          </div>
-
         </div>
       </div>
     </div>
-    <!--/ Matting. -->
 
+    <!-- First Row: One Image -->
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <div class="table-container">
+          <table class="table is-bordered is-striped is-hoverable performance-table" style="margin: 0 auto;">
+            <caption>
+              Table 2. <strong>Performance on synthetic MOVi datasets and real-world YouTube-VIS.</strong> Grounded Correspondence uses zero learnable parameters for temporal modeling yet demonstrates strong improvements on synthetic benchmarks and competitive results on unconstrained sequences.
+            </caption>
+            <thead>
+              <tr>
+                <th rowspan="2" style="vertical-align:middle; min-width: 180px;">Method</th>
+                <th colspan="3" style="text-align:center; border-bottom: 2px solid #dbdbdb;">MOVi-D</th>
+                <th colspan="3" style="text-align:center; border-bottom: 2px solid #dbdbdb;">MOVi-E</th>
+                <th colspan="3" style="text-align:center; border-bottom: 2px solid #dbdbdb;">YouTube-VIS</th>
+              </tr>
+              <tr>
+                <th style="min-width: 70px;">ARI ↑</th>
+                <th style="min-width: 85px;">FG-ARI ↑</th>
+                <th style="min-width: 70px;">mBO ↑</th>
+                <th style="min-width: 70px;">ARI ↑</th>
+                <th style="min-width: 85px;">FG-ARI ↑</th>
+                <th style="min-width: 70px;">mBO ↑</th>
+                <th style="min-width: 70px;">ARI ↑</th>
+                <th style="min-width: 85px;">FG-ARI ↑</th>
+                <th style="min-width: 70px;">mBO ↑</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: left;">SlotContrast</td>
+                <td>58.0<sub>0.8</sub></td>
+                <td>58.0<sub>0.8</sub></td>
+                <td><strong>30.0<sub>0.4</sub></strong></td>
+                <td>68.9<sub>0.9</sub></td>
+                <td>68.9<sub>0.9</sub></td>
+                <td><strong>26.6<sub>0.6</sub></strong></td>
+                <td><strong>32.1<sub>0.8</sub></strong></td>
+                <td><strong>36.3<sub>0.2</sub></strong></td>
+                <td><strong>29.9<sub>0.3</sub></strong></td>
+              </tr>
+              <tr>
+                <td style="text-align: left;"><strong>Grounded Correspondence</strong></td>
+                <td><strong>73.7<sub>1.7</sub></strong></td>
+                <td><strong>73.7<sub>1.7</sub></strong></td>
+                <td>28.4<sub>0.3</sub></td>
+                <td><strong>75.7<sub>1.4</sub></strong></td>
+                <td><strong>75.7<sub>1.4</sub></strong></td>
+                <td>23.4<sub>0.5</sub></td>
+                <td>30.1<sub>4.4</sub></td>
+                <td>33.1<sub>1.6</sub></td>
+                <td>29.3<sub>1.9</sub></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <img src="./static/images/icml2026_rethinkingocl_qualitative_movid.png" alt="Slot Initialization" style="width: 100%; height: auto;">
+        <p>
+          Figure 6. <strong>Qualitative comparison on MOVi-D.</strong> Each row shows consecutive frames from one sequence. Top: Grounded Correspondence. Bottom: SlotContrast. Different colors indicate different slot assignments. Grounded Correspondence produces more compact object masks, assigning single objects to single slots. In contrast, SlotContrast exhibits a tendency to split individual objects into multiple parts, as seen in several sequences where unified objects in our method correspond to fragmented, multi-colored regions in the baseline. This over-segmentation behavior aligns with the lower ARI scores achieved by SlotContrast on this benchmark.
+        </p>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <img src="./static/images/icml2026_rethinkingocl_qualitative_movie.png" alt="Slot Initialization" style="width: 100%; height: auto;">
+        <p>
+          Figure 7. <strong>Qualitative comparison on MOVi-E.</strong> Each row shows consecutive frames from one sequence. Top: Grounded Correspondence. Bottom: SlotContrast. Different colors indicate different slot assignments. Grounded Correspondence generates compact masks that unify objects and background regions into coherent segments. SlotContrast exhibits fragmentation across both foreground and background, splitting continuous surfaces into multiple disconnected parts. The compact representation achieved by our method contributes to the substantial ARI improvement over the baseline on this benchmark.
+        </p>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <img src="./static/images/icml2026_rethinkingocl_qualitative_ytvis.png" alt="Slot Initialization" style="width: 100%; height: auto;">
+        <p>
+          Figure 8. <strong>Qualitative comparison on YouTube-VIS.</strong> Each row shows consecutive frames from one sequence. Top: Grounded Correspondence. Bottom: SlotContrast. Both methods achieve competitive performance on unconstrained real-world sequences.
+        </p>
+      </div>
+    </div>
 
   </div>
 </section>
-
 
 <!-- <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
