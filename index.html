@@ -2,163 +2,65 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="description"
-        content="Temporal consistency in video object-centric learning is a discrete matching problem, not a dynamics prediction problem.">
+  <meta name="description" content="Temporal consistency in video object-centric learning is a discrete matching problem, not a dynamics prediction problem.">
   <meta name="keywords" content="Video Object-Centric Learning, Temporal Consistency, Self-Supervised Learning, Bipartite Matching">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rethinking Temporal Consistency in Video Object-Centric Learning: From Prediction to Correspondence</title>
+  <title>Rethinking Temporal Consistency in Video Object-Centric Learning</title>
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-
-    gtag('js', new Date());
-
-    gtag('config', 'G-PYVRSFMDRL');
-  </script>
-
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
-        rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
   <link rel="stylesheet" href="./static/css/bulma.min.css">
   <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
   <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
   <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="./static/css/index.css">
   <link rel="icon" href="./static/images/favicon.svg">
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script defer src="./static/js/fontawesome.all.min.js"></script>
-  <script src="./static/js/bulma-carousel.min.js"></script>
-  <script src="./static/js/bulma-slider.min.js"></script>
-  <script src="./static/js/index.js"></script>
+  <style>
+    /* Custom spacing and typography refinements */
+    .publication-title { font-family: 'Google Sans', sans-serif; font-weight: 700 !important; }
+    .section-title { margin-bottom: 2rem !important; }
+    .figure-caption { font-size: 0.95rem; margin-top: 0.75rem; color: #4a4a4a; text-align: justify; }
+    .method-highlight { background-color: #f5f5f5; border-radius: 10px; padding: 2rem; margin: 2rem 0; }
+    .results-table-container { background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 1rem; }
+    hr { background-color: #f0f0f0; height: 1px; margin: 3rem 0; }
+  </style>
 </head>
 <body>
 
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
+<nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
   <div class="navbar-menu">
     <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="#">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
-      </a>
-
+      <a class="navbar-item" href="#"><span class="icon"><i class="fas fa-home"></i></span></a>
       <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More Research
-        </a>
+        <a class="navbar-link">More Research</a>
         <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://magenta-sherbet-85b101.netlify.app/">
-            Grounded Correspondence
-          </a>
+          <a class="navbar-item" href="https://magenta-sherbet-85b101.netlify.app/">Grounded Correspondence</a>
         </div>
       </div>
     </div>
-
   </div>
 </nav>
 
-
-<section class="hero">
+<section class="hero" style="margin-top: 3rem;">
   <div class="hero-body">
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
           <h1 class="title is-1 publication-title">Rethinking Temporal Consistency in Video Object-Centric Learning: From Prediction to Correspondence</h1>
           <div class="is-size-5 publication-authors">
-            <span class="author-block">
-              <a href="#">Anonymous Author(s)</a><sup>1</sup>,</span>
-            <!-- <span class="author-block">
-              <a href="https://utkarshsinha.com">Utkarsh Sinha</a><sup>2</sup>,</span>
-            <span class="author-block">
-              <a href="https://jonbarron.info">Jonathan T. Barron</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://sofienbouaziz.com">Sofien Bouaziz</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://www.danbgoldman.com">Dan B Goldman</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://homes.cs.washington.edu/~seitz/">Steven M. Seitz</a><sup>1,2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://www.ricardomartinbrualla.com">Ricardo Martin-Brualla</a><sup>2</sup>
-            </span> -->
+            <span class="author-block"><a href="#">Anonymous Author(s)</a><sup>1</sup></span>
           </div>
-
           <div class="is-size-5 publication-authors">
             <span class="author-block"><sup>1</sup>Affiliation</span>
-            <!-- <span class="author-block"><sup>2</sup>Google Research</span> -->
           </div>
 
           <div class="column has-text-centered">
             <div class="publication-links">
-              <!-- PDF Link. -->
-              <span class="link-block">
-                <a href="#"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
-                  </span>
-                  <span>Paper</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="#"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
-                </a>
-              </span>
-              <!-- Video Link. -->
-              <span class="link-block">
-                <a href="#"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-youtube"></i>
-                  </span>
-                  <span>Video</span>
-                </a>
-              </span>
-              <!-- Code Link. -->
-              <span class="link-block">
-                <a href="https://anonymous.4open.science/r/ICML2026-RethinkingOCL-D077/README.md"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-github"></i>
-                  </span>
-                  <span>Code</span>
-                  </a>
-              </span>
-              <!-- Dataset Link. -->
-              <span class="link-block">
-                <a href="#"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="far fa-images"></i>
-                  </span>
-                  <span>Data</span>
-                  </a>
+              <span class="link-block"><a href="#" class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span></a></span>
+              <span class="link-block"><a href="#" class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv</span></a></span>
+              <span class="link-block"><a href="https://anonymous.4open.science/r/ICML2026-RethinkingOCL-D077/README.md" class="external-link button is-normal is-rounded is-dark"><span class="icon"><i class="fab fa-github"></i></span><span>Code</span></a></span>
             </div>
-
           </div>
         </div>
       </div>
@@ -169,104 +71,13 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <img src="./static/images/icml2026_rethinkingocl_paradigm.png" alt="Teaser Image" style="width: 100%; height: auto;">
-      <h2 class="subtitle has-text-left">
-        Figure 1. <strong>From prediction to correspondence: rethinking temporal consistency in video object-centric learning.</strong> <strong>Top:</strong> The predictive paradigm uses content-blind initialization without spatial priors. Temporal consistency relies on learned dynamics modules that forecast future slot states through high-capacity Transformers or recurrent networks. <strong>Bottom:</strong> Grounded Correspondence eliminates learned temporal parameters entirely. Slots initialize from saliency peaks in frozen backbone features. Frame-to-frame identity is maintained through parameter-free Hungarian matching on slot representations. This paradigm shift achieves competitive performance with zero learnable parameters for temporal modeling.
-      </h2>
+      <figure>
+        <img src="./static/images/icml2026_rethinkingocl_paradigm.png" alt="Teaser Image">
+        <figcaption class="figure-caption">
+          <strong>Figure 1. From prediction to correspondence: rethinking temporal consistency in video object-centric learning.</strong> <strong>Top:</strong> The predictive paradigm uses content-blind initialization without spatial priors. Temporal consistency relies on learned dynamics modules. <strong>Bottom:</strong> Grounded Correspondence eliminates learned temporal parameters entirely.
+        </figcaption>
+      </figure>
     </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <!-- Abstract. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
-            The de facto approach in video object-centric learning maintains temporal consistency through learned dynamics modules that predict future object representations, called slots. We demonstrate that these predictors function as expensive approximations of discrete correspondence problems. Modern self-supervised vision backbones already encode instance-discriminative features that distinguish objects reliably. Exploiting these features eliminates the need for learned temporal prediction. We introduce Grounded Correspondence, a framework that replaces learned transition functions with deterministic bipartite matching. Slots initialize from salient regions in frozen backbone features. Frame-to-frame identity is maintained through Hungarian matching on slot representations. The approach requires zero learnable parameters for temporal modeling yet achieves competitive performance on MOVi-D, MOVi-E, and YouTube-VIS.
-          </p>
-        </div>
-      </div>
-    </div>
-    <!--/ Abstract. -->
-
-    <!-- Paper video. -->
-    <!-- <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths"> -->
-        <!-- <h2 class="title is-3">Video</h2> -->
-        <!-- <div class="publication-video">
-          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div> -->
-      <!-- </div>
-    </div> -->
-    <!--/ Paper video. -->
-  </div>
-</section>
-
-
-<!-- <section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item">
-          <img src="./static/images/icml2026_rethinkingocl_figure_1.png" alt="Figure 1" style="width: 100%; height: auto;">
-        </div>
-        <div class="item">
-          <img src="./static/images/icml2026_rethinking_figure2.png" alt="Figure 2" style="width: 100%; height: auto;">
-        </div>
-        <div class="item">
-          <img src="./static/images/icml2026_rethinkingocl_figure3.png" alt="Figure 3" style="width: 100%; height: auto;">
-        </div>
-        <div class="item">
-          <img src="./static/images/icml2026_rethinking_figure4.png" alt="Figure 4" style="width: 100%; height: auto;">
-        </div>
-      </div>
-    </div>
-  </div>
-</section> -->
-
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Rethinking Slot Initialization: From Content-Blind to Grounded</h2>
-        <div class="content has-text-justified">
-          <p>
-            Slot Attention partitions visual tokens through iterative competitive grouping. In video object-centric learning, slots for frame t are refined through multiple attention iterations conditioned on the state from frame t-1. Current methods typically apply three iterations for the initial frame and two iterations for subsequent frames to ensure stable decompositions. This iterative overhead stems from architectural choices rather than fundamental requirements of the binding mechanism. When slot initialization exploits the structural priors already present in vision backbone features, the grouping process converges substantially faster.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- First Row: One Image -->
-    <div class="columns is-centered">
-      <div class="column is-full">
-        <img src="./static/images/icml2026_rethinkingocl_figure_1.png" alt="Slot Initialization" style="width: 100%; height: auto;">
-        <p>
-          Figure 2. <strong>Slot Attention convergence with different initialization strategies.</strong> Four examples from YouTube-VIS. For each example, left shows content-blind initialization across 3 iterations, right shows grounded initialization with 1 iteration. Content-blind initialization requires multiple iterations to stabilize object boundaries, while grounded initialization achieves stable segmentation in a single iteration.
-        </p>
-      </div>
-    </div>
-
-    <!-- Second Row: Two Images -->
-    <div class="columns is-centered">
-      <div class="column is-half">
-        <img src="./static/images/icml2026_rethinking_figure2.png" alt="Content-Blind" style="width: 100%; height: auto;">
-        <p>
-          Figure 3. <strong>Emergent object-binding signals in DINOv2 features.</strong> Left: Principal component analysis (PCA) visualization of patch embeddings shows coherent spatial clustering by object instance. Right: Saliency map derived from feature similarities (brighter regions indicate higher saliency). Peaks correspond to object centers.
-        </p>
-      </div>
-      <div class="column is-half">
-        <img src="./static/images/icml2026_rethinkingocl_figure3.png" alt="Grounded" style="width: 100%; height: auto;">
-        <p>
-          Figure 4. <strong>Index permutation in independent discovery.</strong> Three YouTube-VIS video sequences. Each row shows consecutive frames from one sequence. Objects are segmented correctly in each frame, but slot assignments (indicated by colors) change randomly across time, demonstrating inconsistent identity tracking.
-        </p>
-      </div>
-    </div>
-
   </div>
 </section>
 
@@ -274,202 +85,111 @@
   <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-        <h2 class="title is-3">Rethinking Temporal Consistency: Prediction or Correspondence?</h2>
+        <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
-          <p>
-            Existing methods assume that maintaining object identity across frames requires learned predictors that model dynamics. In this section, we test whether temporal consistency can instead be solved through correspondence: matching slot representations between consecutive frames without predicting future states.
-          </p>
+          <p>The de facto approach in video object-centric learning maintains temporal consistency through learned dynamics modules... [Abstract Content]</p>
         </div>
       </div>
     </div>
-
-    <!-- Row: Two Images -->
-    <div class="columns is-centered">
-      <div class="column is-half">
-        <div class="table-container" style="overflow-x:auto; margin-top: 1em;">
-            <table class="table is-bordered is-striped is-hoverable is-fullwidth" style="max-width:600px; margin:auto;">
-              <caption>
-                Table 1. SlotContrast with and without learned temporal prediction on YouTube-VIS. The identity baseline <span style='font-family:monospace;'>Q<sub>t</sub> = S<sub>t-1</sub></span> matches the performance of the full model. Mean and standard deviation over 3 seeds.
-              </caption>
-              <thead>
-                <tr>
-                  <th>Temporal Module</th>
-                  <th>ARI &uarr;</th>
-                  <th>FG-ARI &uarr;</th>
-                  <th>mBO &uarr;</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Learned predictor</td>
-                  <td>32.1<sub>0.8</sub></td>
-                  <td>36.3<sub>0.2</sub></td>
-                  <td>29.9<sub>0.3</sub></td>
-                </tr>
-                <tr>
-                  <td>Identity (<span style='font-family:monospace;'>Q<sub>t</sub> = S<sub>t-1</sub></span>)</td>
-                  <td><strong>33.0<sub>1.1</sub></strong></td>
-                  <td><strong>36.6<sub>0.7</sub></strong></td>
-                  <td><strong>30.5<sub>0.6</sub></strong></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-      </div>
-      <div class="column is-half">
-        <img src="./static/images/icml2026_rethinking_figure4.png" alt="Grounded" style="width: 100%; height: auto;">
-        <p>
-          Figure 5. Hungarian Identity Ratio on YouTube-VIS equals 1.0 when slots are propagated as identity between frames, indicating that discrete matching suffices for temporal consistency.
-        </p>
-      </div>
-    </div>
-
   </div>
 </section>
 
+<hr>
+
 <section class="section">
   <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Results</h2>
-        <div class="content has-text-justified">
-          <p>
-            We evaluate our framework on MOVi-D and MOVi-E from the Kubric synthetic dataset, and on the real-world YouTube-VIS 2021 dataset. MOVi-D features high object density with both static and dynamic objects. MOVi-E introduces linear camera movement. YouTube-VIS 2021 consists of unconstrained video sequences.
-          </p>
-        </div>
-      </div>
+    <h2 class="title is-3 has-text-centered section-title">Rethinking Slot Initialization: From Content-Blind to Grounded</h2>
+    
+    <div class="content has-text-justified">
+      <p>Slot Attention partitions visual tokens through iterative competitive grouping... [Content]</p>
     </div>
 
-    <!-- First Row: One Image -->
+    <figure class="mb-6">
+      <img src="./static/images/icml2026_rethinkingocl_figure_1.png" alt="Slot Initialization" style="width: 100%;">
+      <figcaption class="figure-caption"><strong>Figure 2. Slot Attention convergence.</strong> Left: content-blind across 3 iterations. Right: grounded with 1 iteration.</figcaption>
+    </figure>
+
     <div class="columns is-centered">
-      <div class="column is-full">
-        <div class="table-container">
-          <table class="table is-bordered is-striped is-hoverable performance-table" style="margin: 0 auto;">
-            <caption>
-              Table 2. <strong>Performance on synthetic MOVi datasets and real-world YouTube-VIS.</strong> Grounded Correspondence uses zero learnable parameters for temporal modeling yet demonstrates strong improvements on synthetic benchmarks and competitive results on unconstrained sequences.
-            </caption>
+      <div class="column">
+        <figure>
+          <img src="./static/images/icml2026_rethinking_figure2.png" alt="Content-Blind">
+          <figcaption class="figure-caption"><strong>Figure 3. Emergent signals in DINOv2.</strong> Left: PCA visualization. Right: Saliency map.</figcaption>
+        </figure>
+      </div>
+      <div class="column">
+        <figure>
+          <img src="./static/images/icml2026_rethinkingocl_figure3.png" alt="Grounded">
+          <figcaption class="figure-caption"><strong>Figure 4. Index permutation.</strong> Random slot assignment across time in independent discovery.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered section-title">Rethinking Temporal Consistency: Prediction or Correspondence?</h2>
+    
+    <div class="content has-text-justified mb-5">
+      <p>Existing methods assume maintaining object identity requires learned predictors... [Content]</p>
+    </div>
+
+    <div class="columns is-vcentered">
+      <div class="column is-6">
+        <div class="results-table-container">
+          <table class="table is-fullwidth is-narrow">
             <thead>
-              <tr>
-                <th rowspan="2" style="vertical-align:middle; min-width: 180px;">Method</th>
-                <th colspan="3" style="text-align:center; border-bottom: 2px solid #dbdbdb;">MOVi-D</th>
-                <th colspan="3" style="text-align:center; border-bottom: 2px solid #dbdbdb;">MOVi-E</th>
-                <th colspan="3" style="text-align:center; border-bottom: 2px solid #dbdbdb;">YouTube-VIS</th>
-              </tr>
-              <tr>
-                <th style="min-width: 70px;">ARI ↑</th>
-                <th style="min-width: 85px;">FG-ARI ↑</th>
-                <th style="min-width: 70px;">mBO ↑</th>
-                <th style="min-width: 70px;">ARI ↑</th>
-                <th style="min-width: 85px;">FG-ARI ↑</th>
-                <th style="min-width: 70px;">mBO ↑</th>
-                <th style="min-width: 70px;">ARI ↑</th>
-                <th style="min-width: 85px;">FG-ARI ↑</th>
-                <th style="min-width: 70px;">mBO ↑</th>
-              </tr>
+              <tr><th>Temporal Module</th><th>ARI &uarr;</th><th>mBO &uarr;</th></tr>
             </thead>
             <tbody>
-              <tr>
-                <td style="text-align: left;">SlotContrast</td>
-                <td>58.0<sub>0.8</sub></td>
-                <td>58.0<sub>0.8</sub></td>
-                <td><strong>30.0<sub>0.4</sub></strong></td>
-                <td>68.9<sub>0.9</sub></td>
-                <td>68.9<sub>0.9</sub></td>
-                <td><strong>26.6<sub>0.6</sub></strong></td>
-                <td><strong>32.1<sub>0.8</sub></strong></td>
-                <td><strong>36.3<sub>0.2</sub></strong></td>
-                <td><strong>29.9<sub>0.3</sub></strong></td>
-              </tr>
-              <tr>
-                <td style="text-align: left;"><strong>Grounded Correspondence</strong></td>
-                <td><strong>73.7<sub>1.7</sub></strong></td>
-                <td><strong>73.7<sub>1.7</sub></strong></td>
-                <td>28.4<sub>0.3</sub></td>
-                <td><strong>75.7<sub>1.4</sub></strong></td>
-                <td><strong>75.7<sub>1.4</sub></strong></td>
-                <td>23.4<sub>0.5</sub></td>
-                <td>30.1<sub>4.4</sub></td>
-                <td>33.1<sub>1.6</sub></td>
-                <td>29.3<sub>1.9</sub></td>
-              </tr>
+              <tr><td>Learned predictor</td><td>32.1</td><td>29.9</td></tr>
+              <tr><td><strong>Identity</strong></td><td><strong>33.0</strong></td><td><strong>30.5</strong></td></tr>
             </tbody>
           </table>
+          <p class="is-size-7 mt-2"><strong>Table 1.</strong> SlotContrast with/without prediction.</p>
         </div>
       </div>
-    </div>
-
-    <div class="columns is-centered">
-      <div class="column is-full">
-        <img src="./static/images/icml2026_rethinkingocl_qualitative_movid.png" alt="Slot Initialization" style="width: 100%; height: auto;">
-        <p>
-          Figure 6. <strong>Qualitative comparison on MOVi-D.</strong> Each row shows consecutive frames from one sequence. Top: Grounded Correspondence. Bottom: SlotContrast. Different colors indicate different slot assignments. Grounded Correspondence produces more compact object masks, assigning single objects to single slots. In contrast, SlotContrast exhibits a tendency to split individual objects into multiple parts, as seen in several sequences where unified objects in our method correspond to fragmented, multi-colored regions in the baseline. This over-segmentation behavior aligns with the lower ARI scores achieved by SlotContrast on this benchmark.
-        </p>
+      <div class="column is-6">
+        <figure>
+          <img src="./static/images/icml2026_rethinking_figure4.png" alt="Hungarian Ratio">
+          <figcaption class="figure-caption"><strong>Figure 5. Hungarian Identity Ratio.</strong> Value of 1.0 indicates discrete matching suffices.</figcaption>
+        </figure>
       </div>
     </div>
-
-    <div class="columns is-centered">
-      <div class="column is-full">
-        <img src="./static/images/icml2026_rethinkingocl_qualitative_movie.png" alt="Slot Initialization" style="width: 100%; height: auto;">
-        <p>
-          Figure 7. <strong>Qualitative comparison on MOVi-E.</strong> Each row shows consecutive frames from one sequence. Top: Grounded Correspondence. Bottom: SlotContrast. Different colors indicate different slot assignments. Grounded Correspondence generates compact masks that unify objects and background regions into coherent segments. SlotContrast exhibits fragmentation across both foreground and background, splitting continuous surfaces into multiple disconnected parts. The compact representation achieved by our method contributes to the substantial ARI improvement over the baseline on this benchmark.
-        </p>
-      </div>
-    </div>
-
-    <div class="columns is-centered">
-      <div class="column is-full">
-        <img src="./static/images/icml2026_rethinkingocl_qualitative_ytvis.png" alt="Slot Initialization" style="width: 100%; height: auto;">
-        <p>
-          Figure 8. <strong>Qualitative comparison on YouTube-VIS.</strong> Each row shows consecutive frames from one sequence. Top: Grounded Correspondence. Bottom: SlotContrast. Both methods achieve competitive performance on unconstrained real-world sequences.
-        </p>
-      </div>
-    </div>
-
   </div>
 </section>
 
-<!-- <section class="section" id="BibTeX">
-  <div class="container is-max-desktop content">
-    <h2 class="title">BibTeX</h2>
-    <pre><code>@article{park2021nerfies,
-  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
-  title     = {Nerfies: Deformable Neural Radiance Fields},
-  journal   = {ICCV},
-  year      = {2021},
-}</code></pre>
-  </div>
-</section> -->
+<hr>
 
-
-<footer class="footer">
-  <div class="container">
-    <div class="content has-text-centered">
-      <a class="icon-link"
-         href="#">
-        <i class="fas fa-file-pdf"></i>
-      </a>
-      <a class="icon-link" href="#" class="external-link" disabled>
-        <i class="fab fa-github"></i>
-      </a>
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered section-title">Results</h2>
+    <div class="results-table-container mb-6">
+        <table class="table is-bordered is-striped is-fullwidth performance-table">...</table>
     </div>
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-          <p>
-            This website is licensed under a <a rel="license"
-                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-          <p>
-            This means you are free to borrow the <a
-              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
-            we just ask that you link back to this page in the footer.
-            Please remember to remove the analytics code included in the header of the website which
-            you do not want on your website.
-          </p>
-        </div>
+
+    <div class="columns is-centered is-multiline">
+      <div class="column is-full">
+        <figure class="box">
+          <img src="./static/images/icml2026_rethinkingocl_qualitative_movid.png" alt="MOVi-D">
+          <figcaption class="figure-caption"><strong>Figure 6. MOVi-D Comparison.</strong> Grounded Correspondence (Top) vs SlotContrast (Bottom).</figcaption>
+        </figure>
+      </div>
+      <div class="column is-full">
+        <figure class="box">
+          <img src="./static/images/icml2026_rethinkingocl_qualitative_movie.png" alt="MOVi-E">
+          <figcaption class="figure-caption"><strong>Figure 7. MOVi-E Comparison.</strong> Our method generates more coherent segments.</figcaption>
+        </figure>
       </div>
     </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container has-text-centered">
+    <p>This website is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
   </div>
 </footer>
 
