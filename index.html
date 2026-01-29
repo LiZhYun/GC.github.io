@@ -327,6 +327,12 @@
       border-bottom: 1px solid var(--color-border);
     }
 
+    .data-table.caption-bottom caption {
+      caption-side: bottom;
+      border-bottom: none;
+      border-top: 1px solid var(--color-border);
+    }
+
     .data-table th,
     .data-table td {
       padding: 0.75rem 1rem;
@@ -663,7 +669,7 @@
     <!-- Table 1 + Figure 5: Side by side -->
     <div class="mixed-grid">
       <div class="table-wrapper">
-        <table class="data-table">
+        <table class="data-table caption-bottom">
           <caption>
             <strong>Table 1.</strong> SlotContrast with and without learned temporal prediction on YouTube-VIS. The identity baseline <span class="formula">Q<sub>t</sub> = S<sub>t-1</sub></span> matches the performance of the full model. Mean and standard deviation over 3 seeds.
           </caption>
@@ -725,15 +731,15 @@
             <th colspan="3">YouTube-VIS</th>
           </tr>
           <tr>
-            <th>ARI</th>
-            <th>FG-ARI</th>
-            <th>mBO</th>
-            <th>ARI</th>
-            <th>FG-ARI</th>
-            <th>mBO</th>
-            <th>ARI</th>
-            <th>FG-ARI</th>
-            <th>mBO</th>
+            <th>ARI ↑</th>
+            <th>FG-ARI ↑</th>
+            <th>mBO ↑</th>
+            <th>ARI ↑</th>
+            <th>FG-ARI ↑</th>
+            <th>mBO ↑</th>
+            <th>ARI ↑</th>
+            <th>FG-ARI ↑</th>
+            <th>mBO ↑</th>
           </tr>
         </thead>
         <tbody>
